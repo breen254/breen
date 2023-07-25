@@ -1,0 +1,1005 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+
+
+</head>
+<style>
+:root {
+  --background: rgba(250,240,230,0.1);
+  --div-background: rgba(255,105,180,0.8); 
+  --text-color: rgba(0,0,0,0.5);
+  --border-radius: 6px;
+}
+
+
+body {
+  margin: 0;
+  background-color: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+a{
+  text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-track{
+    background: none;
+}
+::-webkit-scrollbar-thumb{
+    background: transparent;
+    border-radius: var(--border-radius);
+}
+
+.side-bar:hover::-webkit-scrollbar-thumb{
+    background-color: rgb(66, 83, 83);
+}
+::-webkit-scrollbar-thumb:hover{
+    background: rgb(98, 133, 133);
+}
+
+
+  .sidepanel  {
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 180px;
+    left: 0;
+    padding-top: 10px;
+
+    background-color: var(--div-background);
+    border-radius: var(--border-radius);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+  }
+  
+  .sidepanel a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    transition: 0.3s;
+
+
+  }
+  
+  .sidepanel a:hover {
+    opacity: 0.4;
+  }
+  
+  .sidepanel .closebtn {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 36px;
+  }
+  
+  .openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    color: rgba(0,0,0,0.5);
+    border: none;
+  }
+  
+  .openbtn:hover {
+    opacity: 0.9;
+  }
+
+
+
+
+
+#navbar {
+  position: fixed;
+  top: -50px;
+  width: 100%;
+  display: block;
+  border-radius: var(--border-radius);
+  transition: top 0.3s;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+#navbar a:hover {
+  background-color: var(--div-background);
+  border-radius: var(--border-radius);
+  color: black;
+}
+.chips-wrapper{
+    overflow-x: scroll;
+    background-image: linear-gradient(to left, rgba(255,105,180,0), rgba(255,105,180,0.8));
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-left: 14px;
+    border-radius: var(--border-radius);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
+}
+.chips-wrapper::-webkit-scrollbar{
+    height: 0;
+}
+
+.chip{
+    margin: 15px 6px;
+    padding: 60px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: .5s;
+}
+.chip:hover{
+    background-color: #cd5c5c;
+    border-radius: var(--border-radius);
+}
+
+
+.searchalert {
+    padding: 20px;
+    background-color: var(--div-background);
+    width: fit-content;
+  }
+  
+  .searchclosebtn {
+    margin-left: 15px;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .searchclosebtn:hover {
+    color: black;
+  }
+
+
+
+
+  /* Set a style for all buttons */
+  .login-button{
+    background-color: var(--div-background);
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: var(--border-radius);
+    transition: 0.5s;
+  }
+  .login-button:hover {
+    background-color: rgba(255,105,180,0.4);
+  }
+  
+
+
+
+.animationSearch{
+    margin: 0 1px 0 5px;
+    width: 30%;
+    height: 30px;
+    box-sizing: border-box;
+    border: .5px solid var(--div-background);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    background-color: transparent;
+    outline: none;
+    -webkit-transition: width 0.5s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+.animationSearch:hover{
+  width: 100%;
+}
+form.search button {
+    background-color: transparent;
+    size: 18px;
+    border: none;
+    cursor: pointer;
+  }
+.animationSearch[type=text]:focus {
+    width: 100%;
+  }
+
+
+  .open-chat-button {
+    background-color: var(--div-background);
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    left: 15px;
+    width: 300px;
+    animation: glowing 1300ms infinite;
+    transition: .5s;
+  }
+
+  @keyframes glowing {
+    0% {
+      background-color: #2ba805;
+      box-shadow: 0 0 3px #2ba805;
+    }
+    50% {
+      background-color: #49e819;
+      box-shadow: 0 0 10px #49e819;
+    }
+    100% {
+      background-color: #2ba805;
+      box-shadow: 0 0 3px #2ba805;
+    }
+  }
+  
+  /* The popup chat - hidden by default */
+  .comment-popup {
+    display: none;
+    position: fixed;
+    left: 15px;
+    bottom: 0;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    transition: .5s;
+    
+  }
+  .user-posts{
+    display: flex;
+  }
+  .comment-chat-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: var(--div-background);
+    transition: .5s;
+  }
+  
+  .comment-chat-container textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: var(--background);
+    resize: none;
+    min-height: 200px;
+  }
+  
+  /* When the textarea gets focus, do something */
+  .comment-chat-container textarea:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* Set a style for the submit/send button */
+  .comment-chat-container .comment-btn {
+    background-color: #04AA6D;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+  
+  
+  .comment-chat-container .comment-cancel {
+    background-color: red;
+  }
+  
+  .comment-chat-container .comment-btn:hover, .open-chat-button:hover {
+    opacity: 1;
+  }
+
+
+  .comment-container {
+    border: 2px solid #dedede;
+    height: fit-content;
+    background-color: #f1f1f1;
+    border-radius: var(--border-radius);
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .darker {
+    border-color: #ccc;
+    background-color: #ddd;
+  }
+  
+  .comment-container::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .comment-container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  
+  .comment-container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+  }
+  
+  .time-right {
+    float: right;
+    color: #aaa;
+  }
+  
+  .time-left {
+    float: left;
+    color: #999;
+  }
+
+.comment-sidebar{
+    background-color: transparent;
+    border: 1px solid brown;
+    padding: 5px;
+    width: 40%;
+    height: auto;
+    overflow-y: scroll;
+    border-radius: var(--border-radius);
+
+}
+.commentsidebar{
+  background-color: transparent;
+  border: 1px solid brown;
+  padding: 5px;
+  width: 95%;
+  height: auto;
+  overflow-y: scroll;
+  border-radius: var(--border-radius);
+}
+
+.comment-content{
+    width: 60%;
+
+}
+
+
+.sidebaritems{
+  display: flex;
+  flex-direction: column;
+
+}
+.sidebaritem{
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  cursor: pointer;
+  height: 40px; 
+}
+
+.sidebar-items{
+    display: flex;
+    flex-direction: column;
+}
+.sidebar-item{
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    cursor: pointer;
+    height: 40px; 
+
+}
+.sidebar-item:hover{
+    background-color: var(--div-background);
+}
+
+
+.sidebar{
+  background-color: var(--div-background);
+  height: fit-content;
+  padding: 10px;
+  width: 5%;
+  overflow-y: scroll;
+  border-radius: var(--border-radius);
+}
+
+.content{
+    width: 65%;
+}
+.endside{
+  width: 30%;
+  overflow-y: scroll;
+  height: calc(100vh - 116px)
+}
+
+
+
+
+
+.video-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 18px;
+    padding: 20px 25px;
+    width: calc(100vw-120px);
+    overflow-y: scroll;
+    height: calc(100vh - 116px) 
+    
+}
+
+.video-content-cover{
+    position: relative;
+    height: fit-content;
+    border-radius: 0 var(--border-radius) 0 var(--border-radius);
+    background-color: transparent;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+
+}
+.video-box{
+    position: relative;
+    width: auto;
+    height: 145px;
+    display: block;
+}
+.video-box img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: 0.3s;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+.video-box img:hover {opacity: 0.7;}
+
+.video-content{
+    position: relative;
+    transition: .5s;
+}
+
+.video-details{
+    border-top: none;
+    padding: 2px 10px 2px 10px;
+    background-color: var(--div-background);
+    box-shadow: 1px 1px 1px #aaaaaa;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    
+}
+.detail, .postedby{
+  padding: 0 5px 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+.price{
+  display: flex;
+  font-size: 1rem;
+  color: #008080;
+}
+.postedbydetails{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+
+
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+.mymodal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+.modal-content, #caption {  
+  -webkit-animation-name: zoom;
+  -webkit-animation-duration: 0.6s;
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+  from {-webkit-transform:scale(0)} 
+  to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+  from {transform:scale(0)} 
+  to {transform:scale(1)}
+}
+.myclose {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.myclose:hover,
+.myclose:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+
+
+
+.header {
+  position: absolute;
+  text-align: center;
+  padding: -5px;
+  display: flex;
+  }
+  
+  .row {
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE 10 */
+    flex-wrap: wrap;
+    padding: 0 2px;
+  }
+  
+  /* Create two equal columns that sits next to each other */
+  .column {
+    -ms-flex: 50%; /* IE 10 */
+    flex: 50%;
+    padding: 0 4px;
+  
+  }
+  
+  .column img {
+    margin-top: 2px;
+    vertical-align: middle;
+    background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8));
+  }
+ 
+
+  /* Style the buttons */
+  .btn {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .btn:hover {
+    background-color: #ddd;
+    border-radius: var(--border-radius);
+  }
+  
+  .btn.active {
+    background-color: #666;
+    border-radius: var(--border-radius);
+  }
+
+
+
+
+  @-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+  }
+    
+  @keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+  }
+
+
+  @media (max-width:1200px){
+    .openbtn{
+      display: block;
+    }
+    {% comment %} .sidebar{
+        width: 70px;
+        overflow-x: hidden;
+        content: '';
+    }
+    .sidebar-items{
+      display: none;
+    } {% endcomment %}
+    {% comment %} .more {
+        display: none;
+    } {% endcomment %}
+    {% comment %} .content{
+        width: calc(100vw - 70px);
+    } {% endcomment %}
+}
+  
+.delmodal {
+  display: none;
+  position: fixed; 
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4); 
+  padding-top: 60px;
+}
+
+.del-modal-content {
+  background-color: #fefefe;
+  margin: 15% auto 15% auto;
+  border: 2px solid #888;
+  width: 50%; 
+  padding: 35px;
+}
+
+.del-animate {
+  -webkit-animation: delanimatezoom 0.6s;
+  animation: delanimatezoom 0.6s
+}
+
+@-webkit-keyframes delanimatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes delanimatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+
+  @media screen and (max-height: 300px) {
+    .overlay a {font-size: 20px}
+    .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+    }
+    span.psw {
+        display: block;
+        float: none;
+     }
+     .cancelbtn {
+        width: 100%;
+     }
+     .video-container{
+        grid-gap: 10px;
+        padding: 10px;
+    }
+  }        
+.loader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: oblique;
+  font-size: 1.2rem;
+  font-variant: normal;
+  background: conic-gradient(
+    #dff2ae 0 25%,
+    #ff90f4 25% 50%,
+    #feefe7 50% 75%,
+    #ffde2b 75%
+  );
+  background-size: 200% 200%;
+  animation: loadanimate 4.3s ease-in-out infinite;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.loader-hidden{
+  opacity: 0;
+  visibility: hidden;
+}
+@keyframes loadanimate {
+  25% {
+    background-position: 0 100%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 100% 0;
+
+  }
+  100% {
+    background-position: 0 0;
+
+  }
+
+}
+
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+.view-posts {
+  margin: 8px -16px;
+  
+}
+
+.view-posts,
+.view-posts > .view-post {
+  padding: 8px;
+}
+.view-post {
+  float: left;
+  width: 25%;
+}
+
+.view-posts:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.view-post-content {
+  background-color: white;
+  padding: 5px;
+  border: .2px solid red;
+}
+
+@media screen and (max-width: 900px) {
+  .view-post {
+    width: 50%;
+  }
+  .endside{
+    display: none;
+  }
+  .sidebar{
+    display: none;
+  }
+  .content{
+    width: 100%;
+  }
+  .login-button{
+    padding: 7px 10px;
+    margin: 2px 0;
+  }
+  .chips-wrapper{
+    display: block;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 5px 5px 0 7px;
+  }
+  .chip{
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-bottom: transparent;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: .5s;
+  }
+  .create-post{
+    width: 100%;
+  }
+  .comment-sidebar{
+    width: 100%;
+    height: 240px;
+
+  }
+  .comment-content{
+    width: 100%;
+  
+  }
+  .user-posts{
+    display: grid;
+  }
+
+
+}
+
+@media screen and (max-width: 600px) {
+  .view-post {
+    width: 100%;
+  }
+}
+             
+</style>
+<body>
+<div class="loader">Loading ...</div>
+<div id="navbar">  
+
+</div>
+
+<div style="padding: 6px 15px 0 15px;">
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style='padding-left: 15px;'>
+        {% if request.user.is_authenticated %}
+        {% if user.nickname %}
+        <a href="{% url 'home' %}"><img src="{{user.avatar.url}}" alt="Avatar" class="avatar"></a> {{user.nickname}}
+          {% else %}
+  Create your Profile <a href="{% url 'edit_profile' %}">Here</a>
+        {% endif %}
+
+          {% endif %}
+      </div>
+
+      <div style='padding-right: 15px;'>
+          <a href="{% url 'home' %}">LOGO</a>
+      </div>
+  </div>
+  <br>
+</div>
+
+<div style="padding: 30px 5px 0 5px; align-items: center;">
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'user_posts' %}">View your ads</a>
+  {% else %}
+  Hi... Welcome
+  {% endif %}
+<div>
+
+{% block content %}
+
+
+
+{% endblock content %}
+    
+{% block about %}
+
+
+
+
+{% endblock about %}
+
+
+<script>
+
+window.addEventListener("load", () =>{
+  const loader = document.querySelector(".loader");
+
+  loader.classList.add("loader-hidden");
+
+  loader.addEventListener("transitioned", ()=>{
+    document.body.removeChild("loader");
+  })
+})
+
+    function openCommentForm() {
+        document.getElementById("commentForm").style.display = "block";
+      }
+      
+      function closeCommentForm() {
+        document.getElementById("commentForm").style.display = "none";
+      }
+
+// When the user scrolls down 20px from the top of the document, slide down the navbar
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("navbar").style.top = "0";
+  } else {
+    document.getElementById("navbar").style.top = "-50px";
+  }
+}
+
+
+
+// Get the elements with class="column"
+var elements = document.getElementsByClassName("column");
+
+// Declare a loop variable
+var i;
+
+// Full-width images
+function one() {
+    for (i = 0; i < elements.length; i++) {
+    elements[i].style.msFlex = "100%";  // IE10
+    elements[i].style.flex = "100%";
+  }
+}
+
+// Two images side by side
+function two() {
+  for (i = 0; i < elements.length; i++) {
+    elements[i].style.msFlex = "50%";  // IE10
+    elements[i].style.flex = "50%";
+  }
+}
+
+// Four images side by side
+function four() {
+  for (i = 0; i < elements.length; i++) {
+    elements[i].style.msFlex = "25%";  // IE10
+    elements[i].style.flex = "25%";
+  }
+}
+
+// Add active class to the current button (highlight it)
+var header = document.getElementById("myHeader");
+var btns = header.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+
+
+function openNav() {
+  document.getElementById("mySidepanel").style.width = "240px";
+}
+function closeNav() {
+  document.getElementById("mySidepanel").style.width = "0";
+}
+
+var delmodal = document.getElementById('deleteButton');
+
+window.onclick = function(event) {
+    if (event.target == delmodal) {
+        modal.style.display = "none";
+    }
+}
+
+
+
+  
+</script>
+
+
+</body>
+</html>

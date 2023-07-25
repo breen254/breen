@@ -1,0 +1,84 @@
+{% extends 'main/navbar.html' %}
+{% block title %}post-detail{% endblock title %}
+
+{% block content %}
+
+<div style="display: flex; padding: 10px;">
+
+    <div style="width: 40%;">
+
+      <div class="commentsidebar">
+        {% if comments.exists %}
+        <h3>Reactions</h3>
+        
+            {% for comment in comments %}
+            <div class="comment-container">
+                {% comment %} <img src="" alt="Avatar" style="width:100%;"> {% endcomment %}
+                <span class="time-right"><h5 >Reacted to: </h5>{{comment.post.name}}</span>
+                  <div>
+                    <p>{{ comment.content }}</p>
+                  </div>
+              </div>
+               
+            {% endfor %}
+           
+          {% else %}
+              <p>No comments yet.</p>
+          {% endif %}
+      </div>
+      {% if user.is_authenticated %}
+      <div class="comment-popup" id="commentForm">
+        <form method="post" action="{% url 'post_detail' post_id=post.id %}" class="comment-chat-container">
+          {% csrf_token %}
+          <h1>Comment</h1>
+      
+          <label for="msg"><b>Comment</b></label>
+          <textarea type="text" placeholder="Type message.." name="content" required></textarea>
+      
+          <button type="submit" class="comment-btn">Send</button>
+          <button type="button" class="comment-btn cancel" onclick="closeCommentForm()">Close</button>
+        </form>
+      </div>
+      {% endif %}
+      
+      <button class="open-chat-button" onclick="openCommentForm()">Leave a comment</button>
+
+
+    </div>
+
+    <div style="width: 60%; padding: 0 5px; 0 25px">
+
+        <h2>{{ post.group }}</h2>
+        <div class="comment-container">
+          <p>Describtion: {{post.content}}</p> 
+        </div>
+        <div style="display: flex; align-items: center;">
+          <h2>Ksh. {{ post.price }}</h2>
+          <h3 style= "padding: 15px;">{% if post.negotiable %}Negotiable{% else %}Not Negotiable{% endif %}</h3>
+        </div>
+        
+        
+        
+        <img id="myImg" src="{{post.image.url}}" alt="" style="width:100%;max-width:600px; ">
+        <div id="myModal" class="mymodal">
+          <span class="myclose">&times;</span>
+          <img class="modal-content" id="imgL">
+        <div id="caption"></div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+          
+{% endblock content %}
+
+

@@ -1,0 +1,124 @@
+{% extends 'main/navbar.html' %}
+
+{% block title %}view_profile{% endblock title %}
+{% block content %}
+<div class="top-padding">
+</div>
+{% comment %} <div class = "profilepage">
+
+    <div class="post col-md-4">
+        <div class="card mb-4 post-card">
+            <div class="card-body">                
+                <img class="post-image mx-auto d-block" src="{{ profile.avatar.url }} " alt="">     
+                <br>     
+                <h5 class="card-title">Name: {{ profile.user.name }}</h5>
+                <p>Phone Number: {{ user.userprofile.phone_number }}</p>
+
+                {% if user.is_authenticated %}
+                    <a href = "{% url 'edit_profile' %}">edit your profile</a>
+                {% endif %}
+                <a href="#" onclick="window.history.back();">Go Back</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class='commentSection'>
+        list Number of comments    
+    </div>
+</div>
+
+<div>
+
+    posts
+</div> {% endcomment %}
+
+
+
+<!-- profile.html -->
+<div class="container">
+    <div class="profile-header">
+      <div class="avatar">
+        <img src="{{ profile.avatar.url }}" alt="User Avatar">
+      </div>
+      <div class="user-info">
+        <h2>Name: {{ user.name }}</h2>
+        <p>Email: {{ user.email }}</p>
+      </div>
+    </div>
+  
+    <div class="comments-section">
+      <h3>Comments</h3>
+      <ul>
+        {% for comment in user.comments.all %}
+          <li>{{ comment.content }}</li>
+        {% empty %}
+          <li>No comments found.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  
+    <div class="posts-section">
+      <h3>Posts</h3>
+      <ul>
+        {% for post in user.posts.all %}
+          <li>{{ post.name }}</li>
+        {% empty %}
+          <li>No posts found.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+
+
+
+{% comment %} 
+<a href="#" onclick="window.history.back();">Go Back</a>
+<div class="container-fluid " >
+    <div class="row">
+    <div class="col-3 fixed-column top-padding">
+        <div class="container mt-3">
+        
+            <img src="{{ profile.avatar.url }}" class="mx-auto d-block" style="width:50%"> 
+
+            <h2>Name: {{ profile.user.name }}</h2>
+            <p>Contact: {{ user.userprofile.phone_number }}</p>
+          </div>
+    </div>
+
+    <div class="col-4 scroll-column hide-scrollbars top-padding " id="content-container">
+      <div class="post-grid">
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="image">
+                    <img src="{{ post.image.url }}" class="card-img-top">
+            </div>
+            <div class="namePrice">
+                <h5>{{post.name|truncatechars:2}}</h5>
+                <span>Ksh. {{post.price}}</span>
+            </div>
+            <p>{{post.content|truncatechars:20}}</p>
+        </div>
+      </div>
+        {% empty %}
+          <li>No items found...</li>
+        {% endfor %}
+    </div>
+    </div>
+</div> {% endcomment %}
+  
+
+    <!-- Include other profile fields as needed -->
+
+
+
+
+
+    {% endblock content %}

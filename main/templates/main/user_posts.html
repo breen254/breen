@@ -1,0 +1,73 @@
+{% extends 'main/navbar.html' %}
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 30px 0 30px;">
+       <h1>Your Posts</h1>
+        <a href="{% url 'edit_profile' %}">Edit your profile</a>
+    </div>
+
+    <p>You have: {% if post_count <= 1 %}{{post_count}} Post {% else %}{{post_count}} Posts {% endif %} </p>
+    <a href="{% url 'home' %}"><i class="ri-home-line"></i></a>
+    <div style="user-posts">
+
+        <div class="comment-sidebar">
+            {% if comments.exists %}
+            <h3>See what people say</h3>
+            
+                {% for comment in comments %}
+                <div class="comment-container">
+                    {% comment %} <img src="" alt="Avatar" style="width:100%;"> {% endcomment %}
+                    <span class="time-right">Product name: {{comment.post.name}}</span>
+                    <p>{{ comment.content }}</p>
+                    
+                  </div>
+                   
+                {% endfor %}
+               
+        {% else %}
+            <p>No comments yet.</p>
+        {% endif %}
+        </div>
+        
+        <div class="comment-content">
+            {% if posts %}
+            <div class="video-container">    
+                {% for post in posts %}
+    
+                <div class="video-content-cover">
+                    <a href="" class="video-box">
+                        <img src="{{ post.image.url }}" alt="Img">
+                    </a>
+                    <div class="video-details">
+    
+                        <div class="detail">
+                            <h3 style="text-transform: capitalize;">{{post.name|truncatechars:4}}</h3>
+                            <a style="padding: 3px;" href = "{% url 'update_post' post.id%}">Update</a>
+                            <div class="price">
+                                <div style="padding-right: 5px; font-style: oblique;">Kshs.</div>
+                                <div style="font-size: 14px;">{{post.price}}</div>
+                            </div>
+                        </div>
+    
+                        <div class="postedby" >
+                            <div class="postedbydetails" >
+                                <a href="{% url 'confirm_delete' post.id %}">Delete</a>
+                            </div>
+    
+                            <div>{{post.content|truncatechars:15}}</div>
+
+                        </div> 
+
+                    </div>
+                </div>
+    
+                {% endfor %}
+            </div>
+            {% else %}
+            No post yet...
+            {% endif %}
+        </div>
+
+    </div>
+
+
+{% endblock content %}

@@ -1,0 +1,156 @@
+{% extends 'main/navbar.html' %}
+{% block content %}
+{% comment %} ------------------------------------------------------header/intro-------------------------------- {% endcomment %}
+
+{% if request.user.is_authenticated %}
+<div style="display: flex; align-items: center; justify-content: space-between;">
+    <a class="login-button" style="width:auto;" href="{% url 'create_post' %}">Add Ads</a>
+   
+    {% if posts %}
+    <form class="search" role="search" method='GET' action="{% url 'home' %}" >
+        <div style="display: flex; align-items: center;">
+            <button><i class="ri-search-line"></i></button>
+            <input class="animationSearch" type="text" Name = "q" name="search" placeholder="Search..">
+            
+        </div>
+    </form>
+    {% else %}
+    <div class="searchalert">
+        <span class="searchclosebtn" onclick="this.parentElement.style.display='none';"><a href="{% url 'home' %}">&times;</a></span> 
+        <strong>Oops!</strong> No posts available, please check again later
+      </div>
+    {% endif %}
+
+    <a href="{% url 'logout' %}"><button class="login-button" style="width:auto;">Logout</button></a>    
+
+</div>
+
+{% else %}
+
+<div style="display: flex; align-items: center; justify-content: space-between;">
+
+    {% if posts %}
+    <form class="search" role="search" method='GET' action="{% url 'home' %}" >
+        <div style="display: flex; align-items: center;">
+            <button><i class="ri-search-line"></i></button>
+            <input class="animationSearch" type="text" Name = "q" name="search" placeholder="Search..">
+            
+        </div>
+    </form>
+    {% else %}
+    <div class="searchalert">
+        <span class="searchclosebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+        <strong>Oops!</strong> No posts today, please check again later
+      </div>
+    {% endif %}
+
+    <a href="{% url 'login' %}"><button class="login-button" style="width:auto;">Login</button></a>    
+
+</div>
+
+
+{% endif %}
+{% comment %} --------------------------------------------------------body part-------------------------------------- {% endcomment %}
+<div class="chips-wrapper">
+    <a href = "{% url 'home' %}">All</a> 
+    {% for group in groups %}
+    
+    <div class="chip">  
+        
+        <p class="chip-item"><a href = "{% url 'home' %}?q={{group.group}}">{{group.group}}</a> </p>        
+    </div>
+    {% endfor %}
+    
+  </div>
+<div class="body-container" style="display: flex;">
+
+    <div class="sidebar">
+
+        <button class="openbtn" onclick="openNav()">☰</button>
+
+        <div id="mySidepanel" class="sidepanel">
+            <a href="" class="closebtn" onclick="closeNav()">&times;</a>
+            
+            <div class="sidebaritems">
+                <a href = "{% url 'home' %}">All</a>
+                <a href = "{% url 'home' %}?q={{group.name}}">Furniture</a> 
+                <a href = "{% url 'home' %}?q={{group.name}}">Electronics</a>
+                <a href = "{% url 'home' %}?q={{group.name}}">other</a>
+                <a href = "{% url 'home' %}?q={{group.name}}">other</a>
+            </div>
+
+        </div>
+
+        {% comment %} <a href = "{% url 'home' %}">All</a> 
+        {% for group in groups %}
+        <div class="sidebar-items">
+            a     
+            <a href = "{% url 'home' %}?q={{group.name}}">{{group.group}}</a> 
+        </div>
+        {% endfor %} {% endcomment %}
+
+    </div>
+   {% comment %}  -------------------------------------------content---------------------------------------{% endcomment %}
+    <div class="content">
+        <div class="video-container">
+
+            {% for post in posts %}
+
+            <div class="video-content-cover">
+                <div class="video-box">
+                    <img src="{{ post.image.url }}" alt="Img">
+
+                </div>
+                <div class="video-details">
+
+                    <div class="detail">
+                        <h3 style="text-transform: capitalize;">{{post.name}}</h3>
+                        <a style="padding: 3px;" href = "{% url 'post_detail' post.id %}">view</a>
+                        <div class="price">
+                            <div style="padding-right: 5px; font-style: oblique;">Kshs.</div>
+                            <div style="font-size: 14px;">{{post.price}}</div>
+                        </div>
+                    </div>
+
+                    <div class="postedby" >
+
+                        <div>{{post.content|truncatechars:14}}</div>
+                        <p style='font-size: 0.575em; padding: 2px;'>{% if post.negotiable %}Negotiable{% else %}Not Negotiable{% endif %}</p>                    
+                        <div class="postedbydetails">
+                            {% if user.is_authenticated %}
+                            <p style="padding-right: 5px;">by:</p>
+                            <a href="  {% url 'view_user_posts' user_id=post.user.id %}" style=" text-decoration: none; font-size: 14px; display: flex; font-style: oblique; color: brown;">@{{post.user|truncatechars:5}}</a>                        
+                            {% endif %}
+                        </div>                     
+                    </div>    
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+{% comment %} ----------------------------------------------endside----------------------- {% endcomment %}
+    <div class= "endside">
+        <div class="header" id="myHeader">
+            <button class="btn" onclick="one()">1</button>
+            <button class="btn active" onclick="two()">2</button>
+            <button class="btn" onclick="four()">4</button>
+        </div>
+        
+        <div class="row"> 
+            {% for post in posts %}
+            <div class="column">
+              <img src="{{ post.image.url }}" alt="img" style="width:100%">
+            </div>
+            
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock content %}

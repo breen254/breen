@@ -1,0 +1,26 @@
+{% extends 'main/navbar.html' %}
+{% block title %}create_post{% endblock title %}
+
+{% block content %}
+
+<div class='create-post' style="  margin: auto;
+width: 100%;
+text-align: center;
+padding: 5px;">
+
+    <form method="POST" enctype="multipart/form-data" style='background-color: 	rgba(178, 190, 181,0.1); border-radius: 10px; box-shadow: 10px 10px 5px #aaaaaa;
+    border-radius: 0 0 10px 10px;' >
+        {% csrf_token %}
+        {% for f in form %}
+        <div style='padding: 10px 10px 0 20px; height: fit-content; width: fit-content; display: flex; align-items: center;'>
+            <label style=" padding-right:10px;">{{f.label}}</label>   
+            <div style=" outline: none;  ">
+                {{f}}
+            </div> 
+        </div>
+        {% endfor %}
+        <button type="submit" style="width:auto;" class="login-button">Save</button>
+    </form>
+</div>
+
+{% endblock content %}

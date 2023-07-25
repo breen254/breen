@@ -1,0 +1,68 @@
+{% extends 'main/navbar.html' %}
+{% block content %}
+
+<div style="max-width: 1000px; margin: auto;">
+    <h2>{{ other_user.name }}'s Posts</h2>
+    <hr>
+    
+    <div class="view-posts">
+        {% for post in posts %}
+      <div class="view-post">
+        <div class="view-post-content">
+          <img src="{{post.image.url}}" alt="" style="width:100%">
+          <div class="video-details">
+            <p>{{post.name}}</p>
+
+          <h3>Ksh. {{post.price}}</h3>
+          <p>{{post.content}}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+</div>
+
+
+
+
+{% comment %} <h1></h1>
+{% if posts %}
+    {% for post in posts %}
+    <div style="position: relative; max-width: 800px; margin: 0 auto;">
+        <img style='vertical-align: middle; border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px;
+        width: 150px;' src="{{post.image.url}}" alt="" style="width:100%;">
+        <div style="  position: absolute; bottom: 0; background: rgb(0, 0, 0); background: rgba(0, 0, 0, 0.5); color: #f1f1f1; width: 100%;padding: 20px;">
+          <h1>Heading</h1>
+          <p>Lorem ipsum dolor.</p>
+        </div>
+      </div>
+        <div class="post-container">
+            <div class="post-title">{{ post.title }}</div>
+            <div>{{ post.content }}</div>
+            <div class="comment-container">
+                {% if comments %}
+                    <h3>Comments:</h3>
+                    <ul>
+                        {% for comment in comments %}
+                            {% if comment.post == post %}
+                                <li>
+                                    {{ comment.content }} - {{ comment.timestamp }}<br>
+                                    <span class="comment-author">{% if user == comment.user %}by You {% else %}by {{comment.user.name|truncatechars:5}} {% endif %} </span>
+                                    
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No comments yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No posts yet.</p>
+{% endif %} {% endcomment %}
+
+{% endblock content %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Post Detail</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.description }}</p>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    {% endif %}
+
+    <h2>Request Delivery</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="user_name">Your Name:</label>
+        <input type="text" id="user_name" name="user_name" required><br>
+
+        <label for="user_address">Your Address:</label>
+        <input type="text" id="user_address" name="user_address" required><br>
+
+        <button type="submit">Request Delivery</button>
+    </form>
+</body>
+</html>

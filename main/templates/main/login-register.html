@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <!-- Include Bootstrap CSS -->
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      body{
+        background-color: #faf0e6;
+      }
+
+      .loader{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: oblique;
+        font-size: 1.2rem;
+        font-variant: normal;
+        background: conic-gradient(
+          #dff2ae 0 25%,
+          #ff90f4 25% 50%,
+          #feefe7 50% 75%,
+          #ffde2b 75%
+        );
+        background-size: 200% 200%;
+        animation: loadanimate 4.3s ease-in-out infinite;
+        color: transparent;
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+      .loader-hidden{
+        opacity: 0;
+        visibility: hidden;
+      }
+      @keyframes loadanimate {
+        25% {
+          background-position: 0 100%;
+        }
+        50% {
+          background-position: 100% 100%;
+        }
+        75% {
+          background-position: 100% 0;
+      
+        }
+        100% {
+          background-position: 0 0;
+      
+        }
+      
+      }
+      
+
+
+
+
+    </style>
+</head>
+<body>
+
+  <div class="loader">Loading ...
+  </div>
+
+
+    {% if page == 'login' %}
+
+
+    {% comment %} ----------------------------------LOGIN PAGE------------------------------------------- {% endcomment %}
+
+<div class="container mt-3">
+    <ul class="nav nav-pills">
+    <div class="offcanvas offcanvas-start" id="demo">
+      <div class="offcanvas-header">
+        <h1 class="offcanvas-title">LOGIN</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body">
+          <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="login-container">
+
+                    <form method = "POST" action = ".">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type = "text" class="form-control" name= "email" placeholder = "Enter your email address" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type = "password" class="form-control" id="password" name= "password" placeholder = "Enter your password" id="password" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        {% comment %} <p>Don`t have an account yet?<a href="{% url 'register' %}" class="signupbtn-link"> Register here</a></p> {% endcomment %}   
+                        
+                    </form>
+                </div>
+                </div>
+            </div>
+      </div>
+      </div>
+    </div>
+    <li class="nav-item">
+      <a class="btn nav-link active" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo" href="{% url 'login' %}">LOGIN</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="btn nav-link" href="{% url 'register' %}">REGISTER</a>
+    </li>
+  </ul>
+</div>
+
+{% if messages %}
+<div class="alert alert-info alert-dismissible fade show">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>  
+    <ul class="messages" class="alert-link">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    </ul>
+  </strong>
+</div>
+{% endif %}
+
+
+{% else %}
+
+  
+{% comment %} ------------------------------REGISTER PAGE--------------------------------------- {% endcomment %}
+
+
+<div class="container mt-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="btn nav-link" href="{% url 'login' %}">LOGIN</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn nav-link active" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo" href="{% url 'register' %}">REGISTER</a>
+      </li>
+    </ul>
+</div>
+
+
+
+{% if messages %}
+<div class="alert alert-info alert-dismissible fade show">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  <strong>  
+    <ul class="messages" class="alert-link">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    </ul>
+  </strong>
+</div>
+{% endif %}
+
+      <div class="offcanvas offcanvas-end" id="demo">
+        <div class="offcanvas-header">
+          <h1 class="offcanvas-title text-center">Registration</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+
+          <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h2 class=""></h2>
+                    <form method = "POST" action = ".">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="">
+                            <label for="">{{field.label}}</label>
+                            <div class="">{{field}}</div>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">Register</button>
+                        <p>Already signed up?<a href="{% url 'login' %}" class="signupbtn-link"> Login</a></p>             
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+      </div>
+      </div>
+      
+      
+{% endif %}    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Include Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  window.addEventListener("load", () =>{
+    const loader = document.querySelector(".loader");
+  
+    loader.classList.add("loader-hidden");
+  
+    loader.addEventListener("transitioned", ()=>{
+      document.body.removeChild("loader");
+    })
+  })
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+

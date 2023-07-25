@@ -1,0 +1,15 @@
+{% extends 'main/navbar.html' %}
+
+{% block content %}
+
+<h2>Confirm Delete</h2>
+<p>Are you</p>
+<p>{{ post.name }}</p>
+
+<form method="post" action="{% url 'delete_post' post.id %}">
+  {% csrf_token %}
+  <button class="login-button" type="submit">Delete</button>
+  <a href="{% url 'user_posts' %}">Cancel</a>
+</form>
+
+{% endblock content %}

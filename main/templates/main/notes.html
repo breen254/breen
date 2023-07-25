@@ -1,0 +1,277 @@
+                {% comment %} <div class="d-flex justify-content-end">
+                    <div class="ml-auto">
+                        <button type="button" class="btn btn-primary d-flex justify-content-end">Messages <span class="badge bg-danger">{{post_count}}</span></button>
+                      <!-- Your content here -->
+                    </div>
+                  </div>
+                <div class="chat-container" id="messageTextArea" rows="10" cols="50">
+                    <div class="messages-container" id="messages-container">
+                        {% for m in msg %}
+                        {% if request.user == m.user %}
+                        <div class="d-flex justify-content-end rounded-top-right">
+                            <div class="ml-auto">                                
+                                <div class = "sender-message ">
+                                    <button type="button" class="btn btn-primary"> @{{m.user.name}}</button>  
+                                    <div class = "message">
+                                        {{m.text}}<br>
+                                        {{m.time_posted | timesince }} ago                                     
+                                        <a href="{% url 'confirm_message' m.id %}" class="btn btn-success">delete</a>
+                                    </div>   
+                                </div>
+                               
+                              <!-- Your content here -->
+                            </div>
+                          </div>
+                        {% else %}
+                        <div class = "receiver-message d-line">
+                            <button type="button" class="btn btn-primary"> @{{m.user.name}}</button>                        
+                            <div class = "message">
+                                {{m.text}}<br>
+                                {{m.time_posted | timesince }} ago
+                            </div>  
+                        </div>
+                        {% endif %}
+                                         
+                {% endfor %}
+                <!-- Chat messages will be displayed here -->
+                    </div>
+                <div >
+                    <form method="post"  class="input-area">
+                        {% csrf_token %}
+                        <input type="text" name="message" id="message-input" placeholder="Type your message...">
+                        <button type="submit" id="send-button">Send</button>
+                    </form>
+
+
+                </div>{% endcomment %}
+
+
+
+
+<a class="" id="detail-link"  aria-current="page" href="{% url 'profile' %}"><h5>@{{request.user.name}}</h5> </a>
+                <div class="container mt-3">     
+                    <img src="{{ profiles.avatar.url }}" class="profileImage rounded-circle" alt="" width="204" height="206">                                   
+                  </div>
+                </div>
+
+
+
+
+
+                {% extends 'main/navbar.html' %}
+
+                {% block content %}
+                
+                
+                <div class="home-container" >
+                    <div class="row">
+                        <div class="col-3 fixed-column">
+                                <div class="container mt-3 ">
+                                    <a href = "{% url 'home' %}">Clear</a>
+                
+                                    <a href="#" class="content">{{ post.get_title_display }} </a>
+                
+                                    {% for top in topic %}            
+                                    <div>
+                                        <a href = "{% url 'home' %}?q={{top.Name}}">{{top.Name}}</a>
+                                    </div>        
+                                    {% endfor %}
+                
+                
+                                    
+                                    
+                                </div>
+                
+                                <!-- home.html -->
+                                <a class="nav-link" href = "{% url 'profile' user.id%}"> 
+                                    <img src="{{ profiles.avatar.url }}" class="rounded-circle" alt="" width="34" height="20">
+                                </a>
+                
+                            </div>
+                            
+                            <div class="col-6 scroll-column hide-scrollbars top-padding " id="content-container">
+                                {% if user.is_authenticated %}
+                                <div class="ro">
+                                    <div class="col-md-5 mb-3">
+                                        <a href="{% url 'create_post' %}" class="btn btn-success makepost">Make a Post</a>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <a href="#" class="btn btn-success"> <ion-icon name="heart-outline"></ion-icon></a>
+                                    </div>
+                                  </div> 
+                                  {% endif %}              
+                
+                                
+                               
+                
+                
+                                <h2>Items</h2>
+                                {% for post in posts %}
+                
+                                <!-- post_grid.html -->
+                                <div class="post-grid">
+                                    <div class="post-grid-item">
+                                        <img src="{{ post.image.url }}" class="" >
+                                      <div class="post-details">
+                                        <h3>Property Name</h3>
+                                        <p>Price: $100</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                        <a href="#" class="btn">View Details</a>
+                                      </div>
+                                    </div>
+                                    <!-- Add other grid items -->
+                                  </div>
+                                  {% endfor %}
+                
+                              
+                              
+                                    {% comment %} <div class="post-grid">
+                                    {% for post in posts %}
+                                    <div class="post-card">
+                                        <div class="image">
+                                            {% if post.image %}
+                                                    <img src="{{ post.image.url }}" class="card-img-top" >
+                                            {% endif %}
+                                        </div>
+                
+                
+                                        <div class="post-details">
+                                            <h3>Property Name</h3>
+                                            <p>Price: $100</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                            <a href="#" class="btn">View Details</a>
+                                        </div>
+                
+                
+                
+                                        <div class="namePrice">
+                                            <h4>{{post.name|truncatechars:5}}</h4>
+                                            <span>Ksh. {{post.price}}</span>
+                                        </div>
+                                       
+                
+                                        <p>{{post.content|truncatechars:20}}</p>
+                                            
+                
+                                        <div class="view-product">
+                                            <button><a href = "{% url 'post_detail' post.id %}">View Product</a></button>
+                                            <span>
+                                            {% if user.is_authenticated %}
+                                            {% if user in post.favorites.all %}
+                                            <a href="{% url 'add_to_favorites' post_id=post.id %}"><ion-icon name="bookmarks-outline"></ion-icon></a>
+                                            {% else %}
+                                            <a href="{% url 'add_to_favorites' post_id=post.id %}"><ion-icon name="bookmark-outline"></ion-icon></a>
+                                            {% endif %}
+                                            {% endif %}
+                                            {% if user.is_authenticated %}
+                                            </span>
+                                            {% if request.user == post.user %}
+                                                <form action="{% url 'confirm_delete' post.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit">Del</button>
+                                                </form>
+                                            {% endif %}
+                
+                                            <span>
+                                                <a href = "{% url 'profile' post.id %}"><ion-icon name="person-outline"></ion-icon></a>
+                                            </span>
+                                            {% endif %}
+                                            
+                                        </div> {% endcomment %}
+                
+                                        
+                                        {% comment %} <div class="stars">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        </div> {% endcomment %}
+                                        {% comment %} <div class="bay">
+                                            
+                                        </div>
+                
+                
+                                    </div>
+                                    
+                                    {% endfor %}
+                                </div> {% endcomment %}
+                
+                
+                
+                
+                
+                
+                
+                
+                                {% comment %} <div class="content1">
+                                    <div class="row">
+                                    {% for post in posts %}
+                                        <div class="post col-md-3" >
+                                            <div class="card mb-4 post-card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ post.name }}</h5>
+                                                    {% if post.image %}
+                                                    <a href = "{% url 'post_detail' post.id %}"><img src="{{ post.image.url }}" class="post-image"></a> 
+                                                    {% endif %}
+                
+                                                    {% if request.user == post.user %}
+                                                        <form action="{% url 'confirm_delete' post.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <button type="submit">Del</button>
+                                                        </form>
+                                                    {% endif %}
+                
+                                                    <p class="card-text">Posted by <a href = "{% url 'view_profile' user.id %}">{{ post.user.name }}</a></p>
+                
+                                                    {% if user.is_authenticated %}
+                                                        {% if user in post.favorites.all %}
+                                                         <a href="{% url 'add_to_favorites' post_id=post.id %}"><ion-icon name="bookmarks-outline"></ion-icon></a>
+                                                        {% else %}
+                                                        <a href="{% url 'add_to_favorites' post_id=post.id %}"><ion-icon name="bookmark-outline"></ion-icon></a>
+                                                        {% endif %}
+                                                         {% else %}
+                                                        <!-- Show appropriate message or login prompt for anonymous users -->
+                                                    {% endif %}
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                 {% endcomment %}
+                
+                            {% comment %} </div> {% endcomment %}
+                
+                
+                
+                {% endblock content %}          
+
+
+
+
+                {% if user.is_authenticated and post.user == user %}
+
+                <button  style="  background-color: #4CAF50;
+                border: none;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                padding: 2px; border-radius: 3px;
+                font-size: 15px;
+                cursor: pointer;" type="submit" onclick="document.getElementById('deleteButton').style.display='block'"> Delete </button>
+                <div id="deleteButton" class="modal">
+                    <form class="del-modal-content del-animate" method="post" action="{% url 'delete_post' post.id %}">
+                        {% csrf_token %}
+
+                        <button type="submit">Delete</button>
+
+                        <button type="button" onclick="document.getElementById('deleteButton').style.display='none'" class="cancelbtn">Cancel</button>
+                      </form>
+
+                      <div class="del-container" style="background-color:#f1f1f1">
+
+                </div>
+
+                 {% endif %}
